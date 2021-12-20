@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%%= t('application.title') %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%%= csrf_meta_tags %>
+    <%%= csp_meta_tag %>
+
+    <%%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%%= stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <div class="min-h-screen bg-gray-100">
+      <header class="bg-white shadow">
+        <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+          <div class="flex justify-between h-16">
+            <div class="flex px-2 lg:px-0">
+              <div class="flex-shrink-0 flex items-center">
+                <%%= link_to root_url do %>
+                  <span class="sr-only"><%%= t('application.title') %></span>
+                  <img class="h-8 w-auto sm:h-10" src="https://upload.wikimedia.org/wikipedia/commons/6/62/Ruby_On_Rails_Logo.svg" alt="">
+                <%% end %>
+              </div>
+              <nav aria-label="Global" class="hidden lg:ml-6 lg:flex lg:items-center lg:space-x-4">
+                <%%= link_to dashboard_path, class: "px-3 py-2 text-gray-500 hover:text-gray-900 text-sm font-medium" do %>
+                  Dashboard
+                <%% end %>
+              </nav>
+            </div>
+
+            <%% if user_signed_in? -%>
+            <div class="lg:ml-4 flex items-center">
+              <!-- Notifications dropdown -->
+              <div class="ml-4 relative flex-shrink-0"
+                   data-controller="dropdown"
+                   data-dropdown-open-value="false"
+                   data-dropdown-active-target="#notification-menu-button"
+                   data-dropdown-active-class="text-red-400 hover:text-red-500 ring-2 ring-offset-2 focus:ring-red-400 hover:ring-red-500"
+                   data-dropdown-invisible-class="opacity-0 scale-95"
+                   data-dropdown-visible-class="opacity-100 scale-100"
+                   data-dropdown-entering-class="ease-out duration-300"
+                   data-dropdown-enter-timeout="300"
+                   data-dropdown-leaving-class="ease-in duration-300"
+                   data-dropdown-leave-timeout="300">
+                <div>
+                  <button data-action="click->dropdown#toggle click@window->dropdown#hide" type="button" data-dropdown-target="button" id="notification-menu-button" class="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none">
+                    <span class="sr-only">View notifications</span>
+                    <!-- Heroicon name: outline/bell -->
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                    </svg>
+                  </button>
+                </div>
+
+                <div data-dropdown-target="menu" class="origin-top-right absolute right-0 mt-2 w-96 z-50 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none transform transition hidden opacity-0 scale-95" role="menu" aria-orientation="vertical" aria-labelledby="notification-menu-button" tabindex="-1">
+                  <div class="flex-1 p-4">
+                    <p class="text-sm font-medium text-gray-900">
+                      No Notifications!
+                    </p>
+                    <p class="mt-1 text-sm text-gray-500">
+                      Congratulations, you are up to date.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Profile dropdown -->
+              <div class="ml-4 relative flex-shrink-0"
+                   data-controller="dropdown"
+                   data-dropdown-open-value="false"
+                   data-dropdown-active-target="#user-menu-button"
+                   data-dropdown-active-class="text-red-400 hover:text-red-500 ring-2 ring-offset-2 ring-red-400 hover:ring-red-500"
+                   data-dropdown-invisible-class="opacity-0 scale-95"
+                   data-dropdown-visible-class="opacity-100 scale-100"
+                   data-dropdown-entering-class="ease-out duration-300"
+                   data-dropdown-enter-timeout="300"
+                   data-dropdown-leaving-class="ease-in duration-300"
+                   data-dropdown-leave-timeout="300">
+                <div>
+                  <button data-action="click->dropdown#toggle click@window->dropdown#hide" type="button" data-dropdown-target="button" class="bg-white rounded-full flex text-sm focus:outline-none" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                    <span class="sr-only">Open user menu</span>
+                    <%%= user_image_tag current_user, class: "h-8 w-8 rounded-full" %>
+                  </button>
+                </div>
+
+                <div data-dropdown-target="menu" class="origin-top-right absolute right-0 mt-2 w-48 z-50 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none transform transition hidden opacity-0 scale-95" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                  <%%= link_to destroy_user_session_path, method: :delete, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900", role: "menuitem", tabindex: "-1" do %>
+                    Sign out
+                  <%% end %>
+                </div>
+              </div>
+            </div>
+            <%% end -%>
+          </div>
+        </div>
+      </header>
+
+      <%%= yield %>
+    </div>
+  </body>
+</html>
