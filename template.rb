@@ -1,5 +1,22 @@
+# frozen_string_literal: true
+
 require 'fileutils'
 require 'shellwords'
+
+require 'rails/generators/active_record/migration'
+
+module MigrationHelpers
+  # Implement the required interface for Rails::Generators::Migration.
+  def next_migration_number(_dirname)
+    @next_migration_number ||= Time.now.utc
+    @next_migration_number += 1
+    @next_migration_number.strftime('%Y%m%d%H%M%S')
+  end
+end
+
+extend Rails::Generators::Migration
+self.class.extend Rails::Generators::Migration::ClassMethods
+self.class.extend MigrationHelpers
 
 def apply_template!
   add_template_repository_to_source_path
@@ -16,6 +33,8 @@ def apply_template!
 
   install_tailwind_css
   install_stimulus_js
+
+  migration_template 'db/migrate/create_user_accounts.rb', 'db/migrate/create_user_accounts.rb'
 end
 
 # =============== Utils ===============

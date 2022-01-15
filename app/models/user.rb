@@ -4,10 +4,14 @@ class User < ApplicationRecord
   devise :trackable, :omniauthable, omniauth_providers: Rails.application.config.oauth_providers
 
   def self.from_omniauth(auth)
-    user_from_omniauth = find_or_initialize_by(provider: auth.provider, uid: auth.uid)
+    user_account = UserAccount.from_omniauth(auth)
+
+    user_from_omniauth = user_account.user || user_account.build_user
     user_from_omniauth.name = auth.info.name
     user_from_omniauth.image = auth.info.image
-    user_from_omniauth.tap(&:save!)
+    user_account.save!
+
+    user_from_omniauth
   end
 
   protected
