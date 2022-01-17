@@ -77,6 +77,14 @@
           </div>
         </div>
       </div>
+      <% else -%>
+      <div class="flex items-center justify-end inset-y-0 right-0">
+        <span class="inline-flex rounded-md shadow">
+          <%= link_to new_user_session_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-red-600 bg-white hover:bg-gray-50" do %>
+            Log in
+          <% end %>
+        </span>
+      </div>
       <% end -%>
     </div>
   </div>
