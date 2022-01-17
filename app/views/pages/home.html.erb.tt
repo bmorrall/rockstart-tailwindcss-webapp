@@ -7,7 +7,7 @@
             <div class="flex items-center justify-between w-full md:w-auto">
               <%%= link_to root_url do %>
                 <span class="sr-only">Workflow</span>
-                <img class="h-8 w-auto sm:h-10" src="https://upload.wikimedia.org/wikipedia/commons/6/62/Ruby_On_Rails_Logo.svg" alt="">
+                <%%= image_tag 'application_logo.svg', class: 'h-8 w-auto sm:h-10', alt: t('application.title') %>
               <%% end %>
             </div>
           </div>
